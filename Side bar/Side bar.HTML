@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Price</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .nav-link {
+                color: #fff;
+                
+            }
+
+        .li_menu {
+            background-color: transparent;
+        }
+
+        .menu_decoration {
+            text-decoration: none;
+        }
+
+        .border_list_menu {
+            border-style: none;
+        }
+        .disabledEvent{
+            pointer-events: none;
+        }
+
+        .star-color {
+            color: #f4c150;
+            font-size: 16px;
+        }
+        
+        /* Default styles for sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: transform 0.4s ease;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Style the toggle button inside the sidebar */
+        .sidebar-toggle {
+            display: block;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%; /* Full width inside sidebar */
+        }
+
+        .sidebar-toggle:hover {
+            text-decoration: none;
+
+        }
+
+        /* Main content styles (adjust to be next to sidebar) */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.4s ease;
+        }
+
+        /* Media query to hide sidebar on small screens */
+       /* @@media screen and (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%); /* Move the sidebar off-screen 
+        }*/
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        /* Add button outside sidebar to bring it back when hidden */
+        .sidebar.active + .main-content {
+            margin-left: 250px; /* Adjust when sidebar is active */
+        }
+        }
+
+        /* Sidebar visible on small screens when active */
+        .sidebar.active {
+            transform: translateX(0); /* Bring the sidebar back on-screen */
+        }
+
+        /* Adjust button position to remain inside hidden sidebar */
+        .sidebar-toggle {
+            position: absolute;
+            /*top: 10px;*/
+            left: 15px;
+        }
+
+        .btn-success{
+            color: #fff !important;
+            background-color: #50abc8 !important;
+            border-color: #50abc8 !important;
+        }
+        .top-50 {
+    top: 50% !important;
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">   
+        <button id="toggle-sidebar" class="sidebar-toggle top-50" style="margin-right:0px; padding-right:0px; text-align:right; z-index: -1; border-radius: 0px 7px 7px 0px;" data-toggle="tooltip" data-placement="right" title="Close Sidebar"><i class="bi bi-chevron-bar-left"></i><br></button>
+        
+            <h2>[Icon page ] Name Page</h2>
+                 <ul class="list-unstyled list-group">
+                    <li class="list-group-item li_menu border_list_menu "><a href="/index" class="text-white menu_decoration">List 1</a></li>
+                <li class="list-group-item li_menu border_list_menu disabledEvent"><a href="#" class="text-white menu_decoration">List 2</a></li>
+                    <li class="list-group-item li_menu border_list_menu "><a href="/ndc" class="text-white menu_decoration">List 3</a></li>
+                <li class="list-group-item li_menu border_list_menu"><a href="/PricePrediction" class="text-white menu_decoration">List 3</a></li>
+                <li class="list-group-item li_menu border_list_menu disabledEvent"><a href="#" class="text-white menu_decoration">List 4</a></li>
+                </ul>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Close Session"><i class="bi bi-box-arrow-right pb-1 mb-1 text-white" style="position: fixed; bottom: 0; width: 100%;" id="close_session" onclick="myFunction_logout()"></i></a>
+    
+    </div>
+    <div class="main-content">
+        <p>Main content</p>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+        <script>
+
+             const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('toggle-sidebar');
+
+        toggleBtn.addEventListener('click', function () {
+            // Toggle the 'active' class on the sidebar
+            sidebar.classList.toggle('active');
+
+            // Update button text based on the sidebar's state
+            if (sidebar.classList.contains('active')) {
+                
+                toggleBtn.innerHTML = '<i class="bi bi-chevron-bar-right"></i>'; // Sidebar is shown
+                document.querySelector('.sidebar').style.transform = "translateX(-100%)";
+                document.querySelector('.main-content').style.marginLeft = "0";
+                document.querySelector('.sidebar-toggle').title = "Show Sidebar";
+                //
+
+            } else {
+                console.log(sidebar.classList.contains('active') + "2");
+                toggleBtn.innerHTML = '<i class="bi bi-chevron-bar-left"></i><br>'; // Sidebar is hidden
+                document.querySelector('.sidebar').style.transform = "translateX(0%)";
+                document.querySelector('.main-content').style.marginLeft = "250px";
+                document.querySelector('.sidebar-toggle').title = "Close Sidebar";
+            }
+        });
+
+        // Auto hide and show sidebar when the size screen change
+        window.onresize = checkWidth;
+        window.onload = checkWidth;
+    
+    
+        function checkWidth(){
+            let window_width = window.innerWidth;
+            if (window_width <= 900) {            
+                document.querySelector('.sidebar').style.transform = "translateX(-100%)";
+                toggleBtn.innerHTML = '<i class="bi bi-chevron-bar-right"></i><br>';
+                document.querySelector('.sidebar').classList.add('active');
+                document.querySelector('.main-content').style.marginLeft = "0";
+            }else{
+                document.querySelector('.sidebar').style.transform = "translateX(0%)";
+                toggleBtn.innerHTML = '<i class="bi bi-chevron-bar-left"></i><br>';
+                document.querySelector('.main-content').style.marginLeft = "250px";
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        }
+            
+
+        </script>
+    </body>
+</html>
